@@ -3,14 +3,9 @@ package com.group7;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 
-public class EmployeeInfo {
-
-    //format decimal to two places
+public class Main {
     private static final DecimalFormat df = new DecimalFormat("0.00");
-
-    //declare variables
-    public static void main(String[] args) {
-       String LName = "Crisostomo";
+    public static void main(String[] args) {String LName = "Crisostomo";
        String empNumber = "10001";
        String FName = "Jose";
        String DOB = "February 14, 1988";
@@ -30,7 +25,6 @@ public class EmployeeInfo {
        int grossSemiMoRate = (basicSalary/2);
        int hourlyRate = (basicSalary/21)/8;
 
-       //print employee and salary information
         System.out.println("=================================");
         System.out.println("           Information");
         System.out.println("=================================" + "\r\n");
