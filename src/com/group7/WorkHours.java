@@ -44,3 +44,5 @@ public class WorkHours {
         return(diff);
     }
 }
+//TODO: HH:MM to X.XX
+// Salary = X.XX * Hourly Rate
