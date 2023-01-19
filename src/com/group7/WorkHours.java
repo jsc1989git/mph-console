@@ -45,4 +45,4 @@ public class WorkHours {
     }
 }
 //TODO: HH:MM to X.XX
-// Salary = X.XX * Hourly Rate
+//Salary = X.XX * Hourly Rate

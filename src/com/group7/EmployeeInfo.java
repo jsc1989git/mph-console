@@ -2,6 +2,7 @@ package com.group7;
 
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
+import java.util.Scanner;
 
 public class EmployeeInfo {
 
@@ -10,9 +11,10 @@ public class EmployeeInfo {
 
     //declare variables
     public static void main(String[] args) {
-       String LName = "Crisostomo";
-       String empNumber = "10001";
+       Scanner input = new Scanner(System.in);
+       int empID = 10001;
        String FName = "Jose";
+       String LName = "Crisostomo";
        String DOB = "February 14, 1988";
        String address = "17/85 Stracke Via Suite 042, Poblacion, Las Piñas 4783 Dinagat Islands";
        String phoneNumber = "918-621-603";
@@ -31,10 +33,12 @@ public class EmployeeInfo {
        int hourlyRate = (basicSalary/21)/8;
 
        //print employee and salary information
+        System.out.println("Please enter your Employee ID:");
+        empID = input.nextInt();
         System.out.println("=================================");
         System.out.println("           Information");
         System.out.println("=================================" + "\r\n");
-        System.out.println("Employee No.: " + empNumber);
+        System.out.println("Employee No.: " + empID);
         System.out.println("Name: " + LName + ", " + FName);
         System.out.println("Status: " + status);
         System.out.println("Position: " + position);
@@ -56,10 +60,12 @@ public class EmployeeInfo {
         System.out.println("Rice Subsidy: " + riceSubsidy);
         System.out.println("Phone Allowance: " + phoneAll);
         System.out.println("Clothing Allowance: " + clothingAll + "\r\n");
-        df.setRoundingMode(RoundingMode.HALF_EVEN);
+        df.setRoundingMode(RoundingMode.HALF_UP);
         System.out.println("Gross Semi-monthly Rate: " + df.format(grossSemiMoRate));
         System.out.println("Hourly Rate: " + df.format(hourlyRate));
+        //work hours for 01/09
 
+        input.close();
 
     }
 }
