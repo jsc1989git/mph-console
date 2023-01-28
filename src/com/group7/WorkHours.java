@@ -11,7 +11,7 @@ public class WorkHours {
     }
     public static void main(String[] args) {
 
-        //create Time class objects
+        //create WorkHours class objects
         WorkHours start = new WorkHours(8, 0);
         WorkHours stop = new WorkHours(17, 0);
         WorkHours diff;
@@ -21,6 +21,7 @@ public class WorkHours {
 
         //print hours worked with correct formatting hh:mm
         System.out.printf("Hours Worked: %d:%02d\n", diff.hours, diff.minutes);
+
 
     }
 
@@ -40,9 +41,14 @@ public class WorkHours {
         diff.minutes = stop.minutes - start.minutes;
         diff.hours = stop.hours - start.hours;
 
+
         //return the difference time
         return(diff);
+
+
     }
+
 }
 //TODO: HH:MM to X.XX
 //Salary = X.XX * Hourly Rate
+//10-24 to 10/28

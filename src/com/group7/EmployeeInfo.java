@@ -3,8 +3,15 @@ package com.group7;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.Scanner;
+import com.group7.WorkHours;
 
 public class EmployeeInfo {
+    int minutes;
+    int hours;
+    public void WorkHours(int hours, int minutes) {
+        this.hours = hours;
+        this.minutes = minutes;
+    }
 
     //format decimal to two places
     private static final DecimalFormat df = new DecimalFormat("0.00");
@@ -12,7 +19,8 @@ public class EmployeeInfo {
     //declare variables
     public static void main(String[] args) {
        Scanner input = new Scanner(System.in);
-       int empID = 10001;
+       int empID;
+       String workDate;
        String FName = "Jose";
        String LName = "Crisostomo";
        String DOB = "February 14, 1988";
@@ -62,8 +70,10 @@ public class EmployeeInfo {
         System.out.println("Clothing Allowance: " + clothingAll + "\r\n");
         df.setRoundingMode(RoundingMode.HALF_UP);
         System.out.println("Gross Semi-monthly Rate: " + df.format(grossSemiMoRate));
-        System.out.println("Hourly Rate: " + df.format(hourlyRate));
-        //work hours for 01/09
+        System.out.println("Hourly Rate: " + df.format(hourlyRate) + "\r\n");
+        System.out.println("To check the hours worked, " + System.lineSeparator() + "please enter a date (yyyy-mm-dd).");
+        workDate = String.valueOf(input.nextInt());
+
 
         input.close();
 
