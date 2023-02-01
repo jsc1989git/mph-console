@@ -3,13 +3,11 @@ package com.group7;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 import java.io.IOException;
-import java.text.ParseException;
 
 public class MPHPayroll {
 
@@ -19,14 +17,14 @@ public class MPHPayroll {
         Scanner input = new Scanner(System.in);
         System.out.println("Enter employee number: ");
         int empNum = input.nextInt();
-        //Read MotorPH Employee Data
-        try (BufferedReader br = new BufferedReader(new FileReader("C:\\Users\\choi\\IdeaProjects\\it101-motorph-grp7\\src\\com\\group7\\mphEmpData.tsv"))) {
+        //Read MotorPH Employee Data with values separated by tabs to avoid cutting the address if comma is used
+        try (BufferedReader br = new BufferedReader(new FileReader("D:\\java\\sample\\src\\com\\group7\\mphEmpData.tsv"))) {
             String line;
-            int employeeNumber = 0;
-            double basicSalary = 0;
-            double riceSubsidy = 0;
-            double phoneAllowance = 0;
-            double clothingAllowance = 0;
+            int employeeNumber;
+            double basicSalary;
+            double riceSubsidy;
+            double phoneAllowance;
+            double clothingAllowance;
             double semiMonthlyRate;
             double hourlyRate;
             while ((line = br.readLine()) != null) {
@@ -49,7 +47,9 @@ public class MPHPayroll {
                     riceSubsidy = Double.parseDouble(values[14]);
                     phoneAllowance = Double.parseDouble(values[15]);
                     clothingAllowance = Double.parseDouble(values[16]);
+                    //Calculate semi-monthly rate
                     semiMonthlyRate = basicSalary / 2;
+                    //Calculate Hourly Rate
                     hourlyRate = (basicSalary / 21) / 8;
                     System.out.println("Basic Salary: " + basicSalary);
                     System.out.println("Rice Subsidy: " + riceSubsidy);
@@ -60,14 +60,14 @@ public class MPHPayroll {
                     break;
                 }
             }
-
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            //Date search and work hours calculation
 
             System.out.println("Enter date to search (YYYY-MM-DD): ");
             String dateToSearch = input.next();
             double totalHoursWorked = 0;
             double totalInMinutes;
-            try (BufferedReader br2 = new BufferedReader(new FileReader("C:\\Users\\choi\\IdeaProjects\\it101-motorph-grp7\\src\\com\\group7\\mphAttendanceRecord.csv"))) {
+            //Read Employee Attendance Record file
+            try (BufferedReader br2 = new BufferedReader(new FileReader("D:\\java\\sample\\src\\com\\group7\\mphAttendanceRecord.csv"))) {
                 while ((line = br2.readLine()) != null) {
                     String[] values = line.split(",");
                     employeeNumber = Integer.parseInt(values[0]);
@@ -77,9 +77,12 @@ public class MPHPayroll {
                         Duration duration = Duration.between(startTime, endTime);
                         totalInMinutes = duration.toMinutes();
                         totalHoursWorked = totalInMinutes / 60;
+
+                        //Display total hours worked for the searched date
                         System.out.println("Total hours worked for " + dateToSearch + ": " + df.format(totalHoursWorked) + " hours");
                     }
                 }
+                //Verify if work hours have been completed
                 if (totalHoursWorked >= 9) {
                     System.out.println("Required work hours completed.");
                 } else {
@@ -93,4 +96,3 @@ public class MPHPayroll {
         }
     }
 }
-
