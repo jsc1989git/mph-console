@@ -31,18 +31,30 @@ public class MPHPayroll {
                 String[] values = line.split("\t");
                 employeeNumber = Integer.parseInt(values[0]);
                 if (employeeNumber == empNum) {
+//                    Display employee information
+                    System.out.println("=====================================");
+                    System.out.println("         Employee Information");
+                    System.out.println("=====================================");
                     System.out.println("Employee Number: " + employeeNumber);
                     System.out.println("Name: " + values[1] + ", " + values[2]);
+                    System.out.println("Status: " + values[10]);
+                    System.out.println("Position: " + values[11]);
+                    System.out.println("Immediate Supervisor: " + values[12]);
                     System.out.println("Birthday: " + values[3]);
                     System.out.println("Address: " + values[4]);
                     System.out.println("Phone Number: " + values[5]);
+//                    Display contributions
+                    System.out.println("=====================================");
+                    System.out.println("            Contributions");
+                    System.out.println("=====================================");
                     System.out.println("SSS: " + values[6]);
                     System.out.println("Philhealth: " + values[7]);
                     System.out.println("TIN: " + values[8]);
                     System.out.println("Pag-ibig: " + values[9]);
-                    System.out.println("Status: " + values[10]);
-                    System.out.println("Position: " + values[11]);
-                    System.out.println("Immediate Supervisor: " + values[12]);
+//                    Display Salary Information
+                    System.out.println("=====================================");
+                    System.out.println("           Salary Information");
+                    System.out.println("=====================================");
                     basicSalary = Double.parseDouble(values[13]);
                     riceSubsidy = Double.parseDouble(values[14]);
                     phoneAllowance = Double.parseDouble(values[15]);
@@ -51,22 +63,29 @@ public class MPHPayroll {
                     semiMonthlyRate = basicSalary / 2;
                     //Calculate Hourly Rate
                     hourlyRate = (basicSalary / 21) / 8;
-                    System.out.println("Basic Salary: " + basicSalary);
-                    System.out.println("Rice Subsidy: " + riceSubsidy);
-                    System.out.println("Phone Allowance: " + phoneAllowance);
-                    System.out.println("Clothing Allowance: " + clothingAllowance);
-                    System.out.println("Semi-Monthly Rate: " + semiMonthlyRate);
-                    System.out.println("Hourly Rate: " + hourlyRate);
+                    System.out.println("Basic Salary: " + df.format(basicSalary));
+                    System.out.println("Rice Subsidy: " + df.format(riceSubsidy));
+                    System.out.println("Phone Allowance: " + df.format(phoneAllowance));
+                    System.out.println("Clothing Allowance: " + df.format(clothingAllowance));
+                    System.out.println("Semi-Monthly Rate: " + df.format(semiMonthlyRate));
+                    System.out.println("Hourly Rate: " + df.format(hourlyRate) + "\r\n");
                     break;
                 }
             }
-            //Date search and work hours calculation
+//            Menu for other features
+            System.out.println("Enter a number from the menu.");
+            System.out.println(1 + " - Hours Worked by Date");
+            System.out.println(2 + " - Monthly Deduction Details");
+            System.out.println(3 + " - Payslip");
+            int fn = Integer.parseInt(input.next());
 
+//            Date search and work hours calculation
             System.out.println("Enter date to search (YYYY-MM-DD): ");
             String dateToSearch = input.next();
             double totalHoursWorked = 0;
             double totalInMinutes;
-            //Read Employee Attendance Record file
+
+//            Read Employee Attendance Record file
             try (BufferedReader br2 = new BufferedReader(new FileReader("D:\\java\\sample\\src\\com\\group7\\mphAttendanceRecord.csv"))) {
                 while ((line = br2.readLine()) != null) {
                     String[] values = line.split(",");
