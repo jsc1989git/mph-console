@@ -78,38 +78,44 @@ public class MPHPayroll {
             System.out.println(2 + " - Monthly Deduction Details");
             System.out.println(3 + " - Payslip");
             int fn = Integer.parseInt(input.next());
-
-//            Date search and work hours calculation
-            System.out.println("Enter date to search (YYYY-MM-DD): ");
-            String dateToSearch = input.next();
-            double totalHoursWorked = 0;
-            double totalInMinutes;
+            if(fn == 1){
+//               Date search and work hours calculation
+                System.out.println("Enter date to search (YYYY-MM-DD): ");
+                String dateToSearch = input.next();
+                double totalHoursWorked = 0;
+                double totalInMinutes;
 
 //            Read Employee Attendance Record file
-            try (BufferedReader br2 = new BufferedReader(new FileReader("D:\\java\\sample\\src\\com\\group7\\mphAttendanceRecord.csv"))) {
-                while ((line = br2.readLine()) != null) {
-                    String[] values = line.split(",");
-                    employeeNumber = Integer.parseInt(values[0]);
-                    if (employeeNumber == empNum && values[3].equals(dateToSearch)) {
-                        LocalTime startTime = LocalTime.parse(values[4], DateTimeFormatter.ofPattern("HH:mm"));
-                        LocalTime endTime = LocalTime.parse(values[5], DateTimeFormatter.ofPattern("HH:mm"));
-                        Duration duration = Duration.between(startTime, endTime);
-                        totalInMinutes = duration.toMinutes();
-                        totalHoursWorked = totalInMinutes / 60;
+                try (BufferedReader br2 = new BufferedReader(new FileReader("D:\\java\\sample\\src\\com\\group7\\mphAttendanceRecord.csv"))) {
+                    while ((line = br2.readLine()) != null) {
+                        String[] values = line.split(",");
+                        employeeNumber = Integer.parseInt(values[0]);
+                        if (employeeNumber == empNum && values[3].equals(dateToSearch)) {
+                            LocalTime startTime = LocalTime.parse(values[4], DateTimeFormatter.ofPattern("HH:mm"));
+                            LocalTime endTime = LocalTime.parse(values[5], DateTimeFormatter.ofPattern("HH:mm"));
+                            Duration duration = Duration.between(startTime, endTime);
+                            totalInMinutes = duration.toMinutes();
+                            totalHoursWorked = totalInMinutes / 60;
 
-                        //Display total hours worked for the searched date
-                        System.out.println("Total hours worked for " + dateToSearch + ": " + df.format(totalHoursWorked) + " hours");
+                            //Display total hours worked for the searched date
+                            System.out.println("Total hours worked for " + dateToSearch + ": " + df.format(totalHoursWorked) + " hours");
+                        }
                     }
+                    //Verify if work hours have been completed
+                    if (totalHoursWorked >= 9) {
+                        System.out.println("Required work hours completed.");
+                    } else {
+                        System.out.println("Required work hours not completed.");
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-                //Verify if work hours have been completed
-                if (totalHoursWorked >= 9) {
-                    System.out.println("Required work hours completed.");
-                } else {
-                    System.out.println("Required work hours not completed.");
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
+            } else {
+                System.out.println("!! This feature is under construction. !!");
             }
+
+
+
         } catch (IOException e) {
             e.printStackTrace();
         }
