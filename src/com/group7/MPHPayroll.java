@@ -14,12 +14,13 @@ public class MPHPayroll {
     private static final DecimalFormat df = new DecimalFormat("0.00");
     public static void main(String[] args) {
 
-        //Ask for Employee Number to search
+//        Ask for Employee Number to search
         Scanner input = new Scanner(System.in);
         System.out.println("Enter employee number: ");
         int empNum = input.nextInt();
-
-        //Read MotorPH Employee Data with values separated by tabs to avoid cutting the address if comma is used
+//        Boolean for handling non-existent employee numbers
+        boolean found = false;
+//        Read MotorPH Employee Data with values separated by tabs to avoid cutting the address if comma is used
         try (BufferedReader br = new BufferedReader(new FileReader("./src/com/group7/mphEmpData.tsv"))) {
             String line;
             int employeeNumber;
@@ -33,7 +34,7 @@ public class MPHPayroll {
                 String[] values = line.split("\t");
                 employeeNumber = Integer.parseInt(values[0]);
                 if (employeeNumber == empNum) {
-
+                    found = true;
 //                    Display employee information
                     System.out.println("=====================================");
                     System.out.println("         Employee Information");
@@ -80,14 +81,23 @@ public class MPHPayroll {
                     break;
                 }
             }
-
+//            Print message if employee number is not found
+            if (!found) {
+                System.out.println(empNum + " does not exist.");
+                return;
+            }
 //            Menu for other features
-            System.out.println("Enter a number from the menu.");
-            System.out.println(1 + " - Hours Worked by Date");
-            System.out.println(2 + " - Net Income");
+            int choice;
+            do {
+                System.out.println("Menu:");
+                System.out.println("1. Hours Worked by Date");
+                System.out.println("2. Net Income");
+                System.out.println("0. Exit");
+                System.out.print("Enter your choice: ");
+                choice = input.nextInt();
 
-            int fn = Integer.parseInt(input.next());
-            if(fn == 1){
+                switch (choice) {
+                    case 1 -> {
 //            Date search and work hours calculation
                 System.out.println("Enter date to search (YYYY-MM-DD): ");
                 String dateToSearch = input.next();
@@ -112,23 +122,26 @@ public class MPHPayroll {
                             System.out.println("Total hours worked for " + dateToSearch + ": " + df.format(totalHoursWorked) + " hours");
 
 //                            Calculate total pay for searched date
-                            System.out.println("Total pay for " + dateToSearch + ": " + df.format(totalDayPay) + "\r\n");
+                            System.out.println("Total pay for " + dateToSearch + ": " + df.format(totalDayPay));
                         }
                     }
 //                    Verify if work hours have been completed
                     if (totalHoursWorked >= 9) {
-                        System.out.println("Required work hours completed.");
+                        System.out.println("Required work hours completed." + "\r\n");
                     } else {
-                        System.out.println("Required work hours not completed.");
+                        System.out.println("Required work hours not completed." + "\r\n");
                     }
 
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
 
-            } else {
-                System.out.println("!! This feature is under construction. !!");
             }
+                    case 2 -> System.out.println("You chose option 2. Feature is under construction." + "\r\n");
+                    case 0 -> System.out.println("Exiting...");
+                    default -> System.out.println("Invalid option. Try again.");
+                }
+            } while (choice != 0);
 
         } catch (IOException e) {
             e.printStackTrace();
