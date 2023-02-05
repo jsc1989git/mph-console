@@ -24,7 +24,7 @@ public class MPHPayroll {
         try (BufferedReader br = new BufferedReader(new FileReader("./src/com/group7/mphEmpData.tsv"))) {
             String line;
             int employeeNumber;
-            double basicSalary;
+            double basicSalary = 0;
             double riceSubsidy;
             double phoneAllowance;
             double clothingAllowance;
@@ -119,10 +119,12 @@ public class MPHPayroll {
                             totalDayPay = totalHoursWorked * hourlyRate;
 
 //                            Display total hours worked for the searched date
+                            System.out.println("Employee Number: " + empNum);
+                            System.out.println("--------------------------");
                             System.out.println("Total hours worked for " + dateToSearch + ": " + df.format(totalHoursWorked) + " hours");
 
 //                            Calculate total pay for searched date
-                            System.out.println("Total pay for " + dateToSearch + ": " + df.format(totalDayPay));
+                            System.out.println("Total pay for " + dateToSearch + ": " + df.format(totalDayPay) + "\r\n");
                         }
                     }
 //                    Verify if work hours have been completed
@@ -137,7 +139,56 @@ public class MPHPayroll {
                 }
 
             }
-                    case 2 -> System.out.println("You chose option 2. Feature is under construction." + "\r\n");
+                    case 2 -> {
+                        double sssDeduct = 0;
+                        double philDeduct = 0;
+                        double pagibigDeduct = 0;
+                        double taxDeduct = 0;
+                        double totalDeduct = 0;
+                        double netBeforeTax = 0;
+                        double netSalary = 0;
+//                        Read deductions data file
+                        try (BufferedReader br2 = new BufferedReader(new FileReader("./src/com/group7/mphDeductions.csv"))) {
+                            while ((line = br2.readLine()) != null) {
+                                String[] values = line.split(",");
+                                employeeNumber = Integer.parseInt(values[0]);
+                                if (employeeNumber == empNum) {
+                                    sssDeduct = Double.parseDouble(values[2]);
+                                    philDeduct = Double.parseDouble(values[3]);
+                                    pagibigDeduct = Double.parseDouble(values[4]);
+
+//                                    Calculate total deductions before tax
+                                    totalDeduct = sssDeduct + philDeduct + pagibigDeduct;
+
+//                                    Calculate net before tax
+                                    netBeforeTax = basicSalary - totalDeduct;
+
+//                                    Conditions for tax amount
+                                    if(basicSalary >= 20833 && basicSalary < 33333) {
+                                        taxDeduct = (netBeforeTax - 20833) * 0.2;
+                                    }
+                                    if(basicSalary >= 33333 && basicSalary < 66667) {
+                                        taxDeduct = ((netBeforeTax - 33333) * 0.25) + 2500;
+                                    }
+                                    if(basicSalary >= 66667 && basicSalary < 166667) {
+                                        taxDeduct = ((netBeforeTax - 66667) * 0.3) + 10833;
+                                    }
+                                    if(basicSalary >= 166667 && basicSalary < 666667) {
+                                        taxDeduct = ((netBeforeTax - 166667) * 0.32) + 40833.33;
+                                    }
+                                    if(basicSalary >= 666667) {
+                                        taxDeduct = ((netBeforeTax - 166667) * 0.35) + 200833.33;
+                                    }
+
+//                                    Calculate net income after taxes
+                                    netSalary = netBeforeTax - taxDeduct;
+
+//                                    Print net income
+                                    System.out.println("Net Income: " + df.format(netSalary) + "\r\n");
+                                }
+                            }
+                        }
+                    }
                     case 0 -> System.out.println("Exiting...");
                     default -> System.out.println("Invalid option. Try again.");
                 }
@@ -148,4 +199,4 @@ public class MPHPayroll {
         }
     }
 }
-//TODO: Apply government deductions
+
