@@ -11,6 +11,7 @@ import java.io.IOException;
 
 public class MPHPayroll {
 
+//    Format to two decimal places
     private static final DecimalFormat df = new DecimalFormat("0.00");
     public static void main(String[] args) {
 
@@ -189,7 +190,10 @@ public class MPHPayroll {
                             }
                         }
                     }
+//                    Exit the menu
                     case 0 -> System.out.println("Exiting...");
+
+//                    Error message for wrong input
                     default -> System.out.println("Invalid option. Try again.");
                 }
             } while (choice != 0);
