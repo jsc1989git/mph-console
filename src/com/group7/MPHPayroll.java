@@ -13,12 +13,14 @@ public class MPHPayroll {
 
     private static final DecimalFormat df = new DecimalFormat("0.00");
     public static void main(String[] args) {
+
         //Ask for Employee Number to search
         Scanner input = new Scanner(System.in);
         System.out.println("Enter employee number: ");
         int empNum = input.nextInt();
+
         //Read MotorPH Employee Data with values separated by tabs to avoid cutting the address if comma is used
-        try (BufferedReader br = new BufferedReader(new FileReader("D:\\java\\sample\\src\\com\\group7\\mphEmpData.tsv"))) {
+        try (BufferedReader br = new BufferedReader(new FileReader("./src/com/group7/mphEmpData.tsv"))) {
             String line;
             int employeeNumber;
             double basicSalary;
@@ -26,11 +28,12 @@ public class MPHPayroll {
             double phoneAllowance;
             double clothingAllowance;
             double semiMonthlyRate;
-            double hourlyRate;
+            double hourlyRate = 0;
             while ((line = br.readLine()) != null) {
                 String[] values = line.split("\t");
                 employeeNumber = Integer.parseInt(values[0]);
                 if (employeeNumber == empNum) {
+
 //                    Display employee information
                     System.out.println("=====================================");
                     System.out.println("         Employee Information");
@@ -43,6 +46,7 @@ public class MPHPayroll {
                     System.out.println("Birthday: " + values[3]);
                     System.out.println("Address: " + values[4]);
                     System.out.println("Phone Number: " + values[5]);
+
 //                    Display contributions
                     System.out.println("=====================================");
                     System.out.println("            Contributions");
@@ -51,6 +55,7 @@ public class MPHPayroll {
                     System.out.println("Philhealth: " + values[7]);
                     System.out.println("TIN: " + values[8]);
                     System.out.println("Pag-ibig: " + values[9]);
+
 //                    Display Salary Information
                     System.out.println("=====================================");
                     System.out.println("           Salary Information");
@@ -59,10 +64,13 @@ public class MPHPayroll {
                     riceSubsidy = Double.parseDouble(values[14]);
                     phoneAllowance = Double.parseDouble(values[15]);
                     clothingAllowance = Double.parseDouble(values[16]);
+
                     //Calculate semi-monthly rate
                     semiMonthlyRate = basicSalary / 2;
+
                     //Calculate Hourly Rate
                     hourlyRate = (basicSalary / 21) / 8;
+                    
                     System.out.println("Basic Salary: " + df.format(basicSalary));
                     System.out.println("Rice Subsidy: " + df.format(riceSubsidy));
                     System.out.println("Phone Allowance: " + df.format(phoneAllowance));
@@ -72,21 +80,23 @@ public class MPHPayroll {
                     break;
                 }
             }
+
 //            Menu for other features
             System.out.println("Enter a number from the menu.");
             System.out.println(1 + " - Hours Worked by Date");
-            System.out.println(2 + " - Monthly Deduction Details");
-            System.out.println(3 + " - Payslip");
+            System.out.println(2 + " - Net Income");
+
             int fn = Integer.parseInt(input.next());
             if(fn == 1){
-//               Date search and work hours calculation
+//            Date search and work hours calculation
                 System.out.println("Enter date to search (YYYY-MM-DD): ");
                 String dateToSearch = input.next();
                 double totalHoursWorked = 0;
                 double totalInMinutes;
+                double totalDayPay;
 
 //            Read Employee Attendance Record file
-                try (BufferedReader br2 = new BufferedReader(new FileReader("D:\\java\\sample\\src\\com\\group7\\mphAttendanceRecord.csv"))) {
+                try (BufferedReader br2 = new BufferedReader(new FileReader("./src/com/group7/mphAttendanceRecord.csv"))) {
                     while ((line = br2.readLine()) != null) {
                         String[] values = line.split(",");
                         employeeNumber = Integer.parseInt(values[0]);
@@ -96,28 +106,33 @@ public class MPHPayroll {
                             Duration duration = Duration.between(startTime, endTime);
                             totalInMinutes = duration.toMinutes();
                             totalHoursWorked = totalInMinutes / 60;
+                            totalDayPay = totalHoursWorked * hourlyRate;
 
-                            //Display total hours worked for the searched date
+//                            Display total hours worked for the searched date
                             System.out.println("Total hours worked for " + dateToSearch + ": " + df.format(totalHoursWorked) + " hours");
+
+//                            Calculate total pay for searched date
+                            System.out.println("Total pay for " + dateToSearch + ": " + df.format(totalDayPay) + "\r\n");
                         }
                     }
-                    //Verify if work hours have been completed
+//                    Verify if work hours have been completed
                     if (totalHoursWorked >= 9) {
                         System.out.println("Required work hours completed.");
                     } else {
                         System.out.println("Required work hours not completed.");
                     }
+
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+
             } else {
                 System.out.println("!! This feature is under construction. !!");
             }
-
-
 
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 }
+//TODO: Apply government deductions
