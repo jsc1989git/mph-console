@@ -105,6 +105,7 @@ public class MPHPayroll {
                 double totalHoursWorked = 0;
                 double totalInMinutes;
                 double totalDayPay;
+                double totalWeekPay;
 
 //            Read Employee Attendance Record file
                 try (BufferedReader br2 = new BufferedReader(new FileReader("./src/com/group7/mphAttendanceRecord.csv"))) {
@@ -118,6 +119,8 @@ public class MPHPayroll {
                             totalInMinutes = duration.toMinutes();
                             totalHoursWorked = totalInMinutes / 60;
                             totalDayPay = totalHoursWorked * hourlyRate;
+//                            Calculate week pay
+                            totalWeekPay = totalDayPay * 5;
 
 //                            Display total hours worked for the searched date
                             System.out.println("Employee Number: " + empNum);
