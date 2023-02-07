@@ -129,8 +129,9 @@ public class MPHPayroll {
 
 //                            Calculate total pay for searched date
                             System.out.println("Total pay for " + dateToSearch + ": " + df.format(totalDayPay) + "\r\n");
+
 //                             Print total week pay
-                            System.out.println("Total pay for " + dateToSearch + ": " + df.format(totalDayPay) + "\r\n");
+                            System.out.println("Total week pay " + df.format(totalWeekPay) + "\r\n");
                         }
                     }
 //                    Verify if work hours have been completed
