@@ -117,7 +117,7 @@ public class MPHPayroll {
                             LocalTime endTime = LocalTime.parse(values[5], DateTimeFormatter.ofPattern("HH:mm"));
                             Duration duration = Duration.between(startTime, endTime);
                             totalInMinutes = duration.toMinutes();
-                            totalHoursWorked = totalInMinutes / 60;
+                            totalHoursWorked = (totalInMinutes / 60) - 1;
                             totalDayPay = totalHoursWorked * hourlyRate;
 //                            Calculate week pay
                             totalWeekPay = totalDayPay * 5;
