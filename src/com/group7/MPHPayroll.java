@@ -135,7 +135,7 @@ public class MPHPayroll {
                         }
                     }
 //                    Verify if work hours have been completed
-                    if (totalHoursWorked >= 9) {
+                    if (totalHoursWorked >= 8) {
                         System.out.println("Required work hours completed." + "\r\n");
                     } else {
                         System.out.println("Required work hours not completed." + "\r\n");
